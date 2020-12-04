@@ -7,9 +7,6 @@ module.exports = (function(){
 
     var app = express();
 
-   
-
-
     var promoRouter = express.Router();
 
     promoRouter.use(bodyParser.json());
