@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 
 var url = 'mongodb://localhost:27017/conFusion';
 
-mongoose.connect(url);
+mongoose.connect(url,  {useCreateIndex: true,useNewUrlParser: true, useUnifiedTopology: true});
 
 var db = mongoose.connection;
 
@@ -22,7 +22,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var dishRouter = require('./routes/dishRouter');
 var promoRouter = require('./routes/promoRouter');
-var leaderRouter = require('./routes/leaderRouter');
+//var leaderRouter = require('./routes/leaderRouter');
 
 var app = express();
 
@@ -42,7 +42,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/dishes',dishRouter);
 app.use('/promotions',promoRouter);
-app.use('/leadership',leaderRouter);
+//app.use('/leadership',leaderRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
