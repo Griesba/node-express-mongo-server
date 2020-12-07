@@ -17,9 +17,13 @@ var commentSchema = new Schema({
         type: String,
         required: true
     },
-    author:  {
+    /*author:  {
         type: String,
         required: true
+    }*/
+    postedBy: {//Mongoose cross-reference population
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, {
     timestamps: true
