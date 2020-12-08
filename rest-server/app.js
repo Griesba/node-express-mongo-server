@@ -30,6 +30,16 @@ var leaderRouter = require('./routes/leaderRouter');
 
 var app = express();
 
+// Secure traffic only: redirecting traffic to the secure server
+app.all('*', function(req, res, next){
+  console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
+  if (req.secure) {
+      return next();
+  };
+  //redirect to HTTPS and secure Port number
+  res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('rest-server:server');
 var http = require('http');
+var https = require('https');
+var fs = require('fs'); // file server to load certificate
 
 /**
  * Get port from environment and store in Express.
@@ -14,6 +16,7 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+app.set('secPort', port + 443); // in production env default port for HTTPS is 443 and for HTTP is 80
 
 /**
  * Create HTTP server.
@@ -28,6 +31,29 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+
+/**
+ * Create HTTPS server.
+ younedd to generate key and certificate from openssl
+ */ 
+ 
+var options = {
+  key: fs.readFileSync(__dirname+'/private.key'),
+  cert: fs.readFileSync(__dirname+'/certificate.pem')
+};
+
+var secureServer = https.createServer(options,app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+secureServer.listen(app.get('secPort'), function() {
+  console.log('Server listening on port ',app.get('secPort'));
+});
+secureServer.on('error', onError);
+secureServer.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
