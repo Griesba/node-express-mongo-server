@@ -62,7 +62,7 @@ dishRouter.route('/:dishId')
     });
 })
 
-.delete(Verify.verifyOrdinaryUser,, function (req, res, next) {
+.delete(Verify.verifyOrdinaryUser, function (req, res, next) {
     Dishes.findByIdAndRemove(req.params.dishId, 
         function (err, resp) {
             if (err) throw err;
